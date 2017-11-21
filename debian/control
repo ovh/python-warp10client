@@ -1,0 +1,20 @@
+Source: python-warp10client
+Maintainer: Maciej Jozefczyk  <maciej.jozefczyk@corp.ovh.com>
+Section: python
+Priority: optional
+Build-Depends: dh-python, python3-all, debhelper (>= 9),  python-all (>= 2.6.6-3~)
+Build-Depends-Indep: python-setuptools, python3-setuptools
+Standards-Version: 3.9.6
+X-Python-Version: >= 2.7
+X-Python3-Version: >= 3.3
+Homepage: https://github.com/ovh/python-warp10client
+
+Package: python3-warp10client
+Architecture: all
+Depends: ${misc:Depends}, ${python3:Depends}, python3-requests, python3-daiquiri
+Description: Python client for Warp10 metrics engine
+
+Package: python-warp10client
+Architecture: all
+Depends: ${misc:Depends}, ${python:Depends}, python-requests, python-daiquiri
+Description: Python client for Warp10 metrics engine
