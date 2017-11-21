@@ -22,6 +22,10 @@ from warp10client.timeserie import Timeserie
 LOG = daiquiri.getLogger(__name__)
 
 
+class CallException(Exception):
+    pass
+
+
 class Warp10Client(object):
     # TODO(mjozefcz):
     # Check those methods:
@@ -226,13 +230,13 @@ class Warp10Client(object):
             data = self._gen_request_body(metrics=metrics,
                                           call_type=call_type)
         except Exception as e:
-            raise Exception('Failed to prepare request.\n'
-                            'Error: %s\n'
-                            'Endpoint: %s\n'
-                            'Headers: %s'
-                            % (e.message, url,
-                               self._remove_sensitive_data(
-                                   deepcopy(headers))))
+            raise CallException('Failed to prepare request.\n'
+                                'Error: %s\n'
+                                'Endpoint: %s\n'
+                                'Headers: %s'
+                                % (e.message, url,
+                                    self._remove_sensitive_data(
+                                        deepcopy(headers))))
 
         LOG.debug('Calling API with parameters: \n'
                   'url: %(url)s \n'
@@ -249,14 +253,17 @@ class Warp10Client(object):
                 headers=headers,
                 data=data)
         except Exception as e:
-            raise Exception('Failed to gather data from WARP10 endpoint.\n'
-                            'Error: %s\n'
-                            'Endpoint: %s\n'
-                            'Headers: %s\n'
-                            'Data: %s'
-                            % (e.message, url,
-                               self._remove_sensitive_data(deepcopy(headers)),
-                               self._remove_sensitive_data(deepcopy(data))))
+            raise CallException('Failed to gather data from WARP10 '
+                                'endpoint.\n'
+                                'Error: %s\n'
+                                'Endpoint: %s\n'
+                                'Headers: %s\n'
+                                'Data: %s'
+                                % (e.message, url,
+                                    self._remove_sensitive_data(
+                                        deepcopy(headers)),
+                                    self._remove_sensitive_data(
+                                        deepcopy(data))))
 
     def _gen_request_body(self, metrics, call_type='fetch'):
         if call_type == 'fetch':

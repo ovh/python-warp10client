@@ -16,3 +16,4 @@ build
 dist
 warp10client/versioninfo
 python_warp10client.egg-info
+*.egg-info
