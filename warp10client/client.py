@@ -217,8 +217,8 @@ class Warp10Client(object):
         # NOTE(danpawlik) Remove sensitive data like: Warp10token.
         if constants.WARP_TOKEN_HEADER_NAME in data:
             data[constants.WARP_TOKEN_HEADER_NAME] = (hashlib.sha256(
-                data[constants.WARP_TOKEN_HEADER_NAME]).hexdigest()
-            )
+                data[constants.WARP_TOKEN_HEADER_NAME].encode(
+                    'utf-8')).hexdigest())
         return data
 
     @check_resp_status()
@@ -234,7 +234,7 @@ class Warp10Client(object):
                                 'Error: %s\n'
                                 'Endpoint: %s\n'
                                 'Headers: %s'
-                                % (e.message, url,
+                                % (e, url,
                                     self._remove_sensitive_data(
                                         deepcopy(headers))))
 
@@ -259,7 +259,7 @@ class Warp10Client(object):
                                 'Endpoint: %s\n'
                                 'Headers: %s\n'
                                 'Data: %s'
-                                % (e.message, url,
+                                % (e, url,
                                     self._remove_sensitive_data(
                                         deepcopy(headers)),
                                     self._remove_sensitive_data(

@@ -183,3 +183,24 @@ class TestWarp10ClientTestCase(base.BaseTestCase):
                                                warp10_api_url=self.warp10_url)
             self.assertRaises(NotImplementedError,
                               client.delete, self.metric_write)
+
+    def test__call__gen_requests_body(self):
+        with mock.patch('warp10client.client.Warp10Client._gen_request_body',
+                        side_effect=warp10client.client.CallException):
+
+            client = warp10client.Warp10Client(write_token=self.write_token,
+                                               read_token=self.read_token,
+                                               warp10_api_url=self.warp10_url)
+
+            self.assertRaises(warp10client.client.CallException,
+                              client._call, self.metric_write)
+
+    def test__call__get_method(self):
+        with mock.patch('warp10client.client.Warp10Client._get_method',
+                        side_effect=warp10client.client.CallException):
+
+            client = warp10client.Warp10Client(write_token=self.write_token,
+                                               read_token=self.read_token,
+                                               warp10_api_url=self.warp10_url)
+            self.assertRaises(warp10client.client.CallException,
+                              client._call, self.metric_write)
