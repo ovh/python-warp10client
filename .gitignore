@@ -17,6 +17,7 @@ wheels/
 *.egg
 MANIFEST
 *.pyc
+ChangeLog
 *.swo
 *.swp
 
